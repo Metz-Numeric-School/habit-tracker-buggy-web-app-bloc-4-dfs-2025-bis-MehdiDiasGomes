@@ -46,6 +46,7 @@ class UserController extends AbstractController
             
             if(count($errors) == 0)
             {
+                $user['password'] = password_hash($user['password'], PASSWORD_DEFAULT);
                 $id = $this->userRepository->insert($user);
                 header('Location: /admin/user');
                 exit;

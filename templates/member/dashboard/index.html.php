@@ -47,8 +47,8 @@
                             <div class="col-md-4 mb-3">
                                 <div class="card shadow-sm">
                                     <div class="card-body">
-                                        <h5 class="card-title"><?= $habit->getName() ?></h5>
-                                        <p class="card-text"><?= $habit->getDescription() ?></p>
+                                        <h5 class="card-title"><?= htmlspecialchars($habit->getName()) ?></h5>
+                                        <p class="card-text"><?= htmlspecialchars($habit->getDescription()) ?></p>
 
                                         <form action="/habit/toggle" method="post" class="mb-2">
                                             <input type="hidden" name="habit_id" value="<?= $habit->getId() ?>">
