@@ -44,6 +44,29 @@ DB_USERNAME=habit_tracker
 DB_PASSWORD=p7fB3WdrkEAEKpti
 ```
 
+### Configuration nginx rewrite
+Dans aaPanel > Website > 172.17.4.8 > URL rewrite, je configure :
+```nginx
+location / {
+    try_files $uri /index.php?$args;
+}
+
+location ~ \.php$ {
+    fastcgi_pass unix:/tmp/php-cgi-82.sock;
+    fastcgi_index index.php;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include fastcgi_params;
+}
+```
+
+### Création des tables de base de données
+Je me connecte au serveur et j'exécute :
+```bash
+cd /www/wwwroot/172.17.4.8
+php bin/create-database
+```
+Cette commande crée automatiquement toutes les tables et les données de démonstration.
+
 ## Méthode de déploiement
 
 ### Dépôt Git bare
@@ -77,5 +100,5 @@ chmod +x deploy.sh
 1. Je commite les changements en local
 2. Je pushe sur le VPS : `git push vps main`
 3. Sur le serveur : `./deploy.sh main`
-4. Je crée la base de données : `php bin/create-database`
+4. Si première installation : `php bin/create-database`
 5. Je vérifie le bon fonctionnement
