@@ -34,10 +34,12 @@ class RegisterController extends AbstractController
             if(empty($user['password']))
                 $errors['password'] = 'Le mot de passe est obligatoire';
 
-
             if(count($errors) == 0) {
                 // Par défaut l'utilisateur n'est pas admin
                 $user['isadmin'] = 0;
+                
+                // On hash le mot de passe
+                $user['password'] = password_hash($user['password'], PASSWORD_DEFAULT);
 
                 // On persite les informations en BDD
                 $id = $this->userRepository->insert($user);
