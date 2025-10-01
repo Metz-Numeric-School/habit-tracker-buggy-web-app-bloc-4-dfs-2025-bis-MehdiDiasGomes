@@ -18,26 +18,26 @@ class RegisterController extends AbstractController
     {
         $errors = [];
 
-        if(!empty($_POST['user'])) {
+        if (!empty($_POST['user'])) {
 
             $user = $_POST['user'];
-            
-            if(empty($user['lastname']))
+
+            if (empty($user['lastname']))
                 $errors['lastname'] = 'Le Nom est obligatoire';
 
-            if(empty($user['firstname']))
+            if (empty($user['firstname']))
                 $errors['firstname'] = 'Le Prénom est obligatoire';
 
-            if(empty($user['email']))
+            if (empty($user['email']))
                 $errors['email'] = 'L\'email est obligatoire';
 
-            if(empty($user['password']))
+            if (empty($user['password']))
                 $errors['password'] = 'Le mot de passe est obligatoire';
 
-            if(count($errors) == 0) {
+            if (count($errors) == 0) {
                 // Par défaut l'utilisateur n'est pas admin
                 $user['isadmin'] = 0;
-                
+
                 // On hash le mot de passe
                 $user['password'] = password_hash($user['password'], PASSWORD_DEFAULT);
 
@@ -47,11 +47,14 @@ class RegisterController extends AbstractController
                 // On authentifie l'utilsateur directement
                 $_SESSION['user'] = [
                     'id' => $id,
-                    'username' => $user['firstname']
+                    'username' => $user['firstname'],
+                    'firstname' => $user['firstname'],
+                    'lastname' => $user['lastname'],
+                    'email' => $user['email'],
                 ];
 
                 // On redirige vers son dashboard
-                header("Location: /user/ticket");
+                header("Location: /dashboard");
                 exit;
             }
         }
